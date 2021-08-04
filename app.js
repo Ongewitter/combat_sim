@@ -33,6 +33,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+// Filter trailing url slashes
+app.use((req, res, next) => {
+  if (req.url.slice(-1) === '/') {
+    req.url = req.url.slice(0, -1);
+  }
+  next();
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
