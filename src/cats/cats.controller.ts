@@ -22,7 +22,6 @@ export class CatsController {
 
   @Get(':id')
   findOne(@Param('id') id: string): string {
-    console.log(id);
     return `This action returns the ${id} cat`;
   }
 
@@ -32,10 +31,10 @@ export class CatsController {
     return `This action adds a new cat to the bag with DTO: ${createCatDto}`;
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() updateCatDto: UpdateCatDto) {
-    return `This action updates the #${id} cat with DTO: ${updateCatDto}`;
-  }
+  // @Put(':id')
+  // update(@Param('id') id: string, @Body() updateCatDto: UpdateCatDto) {
+  //   return `This action updates the #${id} cat with DTO: ${updateCatDto}`;
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
