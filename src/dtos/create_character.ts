@@ -7,4 +7,5 @@ export class CreateCharacterDto {
   tohit: string;
   damage: Dice;
   bonus_damage: Dice;
+  ruleset: string;
 }

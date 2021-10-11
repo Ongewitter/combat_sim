@@ -4,11 +4,11 @@ import { CharacterService } from './characters.service';
 
 @Controller('characters')
 export class CharactersController {
-  constructor(private charactersService: CharacterService) {}
+  constructor(private characterService: CharacterService) {}
 
   @Post()
   // eslint-disable-next-line prettier/prettier
-  async create(@Body() createCharacterDto: CreateCharacterDto): Promise<CreateCharacterDto> {
-    return this.charactersService.create(createCharacterDto);
+  async create(@Body() createCharacterDto: CreateCharacterDto) {
+    return this.characterService.create(createCharacterDto);
   }
 }
