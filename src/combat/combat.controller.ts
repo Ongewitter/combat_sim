@@ -1,4 +1,5 @@
 import { Controller } from '@nestjs/common';
+import { CombatService } from './combat.service';
 
 @Controller('combat')
 export class CombatController {
