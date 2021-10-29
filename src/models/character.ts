@@ -8,4 +8,5 @@ export interface Character {
   tohit: string;
   damage: Dice;
   bonus_damage: Dice;
+  team: string;
 }
