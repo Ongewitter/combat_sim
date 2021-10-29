@@ -18,10 +18,3 @@ export class CharactersController {
     return this.characterService.delete(id);
   }
 }
-
-// return (<TableRow key={result.id}>
-//   <td>{result.status}</td>
-//   <td>{result.name}</td>
-//   <td>{result.hp}</td>
-//   <td>{result.damage_dealt}</td>
-//   <td>{result.damage_taken}</td>
