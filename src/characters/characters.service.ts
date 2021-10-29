@@ -16,13 +16,20 @@ export class CharacterService {
       id: this.characters.length,
       ...characterOptions,
     };
-console.log(ruleset);
     // TODO Implement ruleset validation
     // if(!ruleset) { ruleset = 'DnD'; }
     // RULESETS[ruleset].validateCharacter(newCharacter);
 
     this.characters.push(newCharacter);
     return this.characters[this.characters.length - 1];
+  }
+
+  delete(id: string){
+    const characterIndex = this.characters.findIndex(
+      (e) => e.id == parseInt(id),
+    );
+    this.characters.splice(characterIndex, 1);
+    return this.characters;
   }
 
   findAll(): Array<Character> {
