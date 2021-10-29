@@ -6,7 +6,11 @@ import { RULESETS } from '../data/rulesets';
 // This service is responsible for data storage and retrieval
 @Injectable()
 export class CharacterService {
-  private readonly characters: Array<Character> = [];
+  private characters: Array<Character> = [];
+
+  index(){
+    return this.characters;
+  }
 
   create(characterDto: CreateCharacterDto) {
     // eslint-disable-next-line prefer-const
@@ -19,16 +23,17 @@ export class CharacterService {
     // TODO Implement ruleset validation
     // if(!ruleset) { ruleset = 'DnD'; }
     // RULESETS[ruleset].validateCharacter(newCharacter);
-
     this.characters.push(newCharacter);
     return this.characters[this.characters.length - 1];
   }
 
   delete(id: string){
     const characterIndex = this.characters.findIndex(
-      (e) => e.id == parseInt(id),
+      (e) => e.id === parseInt(id),
     );
+    console.log(this.characters);
     this.characters.splice(characterIndex, 1);
+    console.log(this.characters);
     return this.characters;
   }
 
