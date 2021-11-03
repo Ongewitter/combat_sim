@@ -35,8 +35,10 @@ export class CharacterService {
     // RULESETS[ruleset].validateCharacter(newCharacter);
     return this.charactersCollection
       .insertOne(newCharacter)
-      .then((response) => {
-        return this.charactersCollection.find({ _id: response._id });
+      .then(async (response) => {
+        return await this.charactersCollection.findOne({
+          _id: response.insertedId,
+        });
       })
       .catch((error) => console.error(error));
   }
@@ -44,8 +46,8 @@ export class CharacterService {
   update(_id: string, updateCharacter: UpdateCharacterDto) {
     return this.charactersCollection
       .updateOne({ _id: _id }, { $set: updateCharacter })
-      .then(() => {
-        return this.charactersCollection.find({ _id: _id });
+      .then(async () => {
+        return await this.charactersCollection.findOne({ _id: _id });
       })
       .catch((error) => console.error(error));
   }
