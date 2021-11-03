@@ -7,6 +7,6 @@ export interface Character {
   armor: string;
   toHit: string;
   damage: Dice;
-  bonus_damage: Dice;
+  bonusDamage: Dice;
   team: string;
 }

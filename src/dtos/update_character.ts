@@ -7,7 +7,7 @@ export class UpdateCharacterDto {
   armor: string;
   toHit: string;
   damage: Dice;
-  bonus_damage: Dice;
+  bonusDamage: Dice;
   team: string;
   ruleset: string;
 }
