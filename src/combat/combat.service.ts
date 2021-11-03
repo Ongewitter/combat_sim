@@ -23,8 +23,8 @@ export class CombatService {
     });
   }
 
-  combat() {
-    this.charactersCollection
+  async combat() {
+    await this.charactersCollection
       .find()
       .toArray()
       .then((result) => {
@@ -34,13 +34,18 @@ export class CombatService {
 
     const combatResults = this.populateResults(this.characters);
 
-    for (const character of combatResults) {
-      const target = this.findTarget(combatResults, character);
-      // eslint-disable-next-line prettier/prettier
-      if (!target) { break; }
+    do {
+      for (const character of combatResults) {
+        console.log('------FIGHT------');
+        const target = this.findTarget(combatResults, character);
+        console.log(character);
+        console.log(target);
+        // eslint-disable-next-line prettier/prettier
+        if (!target) { break; }
 
-      this.attackTarget(character, target);
-    }
+        this.attackTarget(character, target);
+      }
+    } while (this.keepFighting(combatResults));
 
     return combatResults;
   }
@@ -50,7 +55,7 @@ export class CombatService {
     characters.forEach((character) => {
       acc.push({
         status: 'Alive',
-        damage_dealt: 0,
+        damageDealt: 0,
         hits: 0,
         attacks: 0,
         ...character,
@@ -62,7 +67,7 @@ export class CombatService {
   // eslint-disable-next-line prettier/prettier
   private findTarget(combatResults: Array<CombatResult>, character: CombatResult){
     return combatResults.find((char) => {
-      char.team != character.team && char.hp > 0;
+      return char.team !== character.team && char.hp > 0;
     });
   }
 
@@ -80,25 +85,44 @@ export class CombatService {
     return attacker.toHit + this.getRoll(20) > target.armor;
   }
 
-  private dealDamage(attacker: CombatResult, target: CombatResult){
-    const damage = this.rollDamage(attacker.damage, attacker.bonus_damage);
-    attacker.damage_dealt += damage;
+  private dealDamage(attacker: CombatResult, target: CombatResult) {
+    const damage = this.rollDamage(attacker.damage, attacker.bonusDamage);
+    attacker.damageDealt += damage;
     target.hp -= damage;
+    if (target.hp <= 0) {
+      target.status = 'Dead';
+    }
   }
 
-  private rollDamage(damage: Dice, bonus_damage: Dice){
+  private rollDamage(damage: Dice, bonusDamage: Dice) {
+    console.log(damage, bonusDamage)
     // TODO: depends on ruleset
     let total = 0;
     for (let i = 0; i < damage.amount; i++){
       total += this.getRoll(damage.die);
     }
-    for (let i = 0; i < bonus_damage.amount; i++){
-      total += this.getRoll(bonus_damage.die);
+    for (let i = 0; i < bonusDamage.amount; i++){
+      total += this.getRoll(bonusDamage.die);
     }
     return total;
   }
 
-  private getRoll(die: number){
+  private getRoll(die: number) {
     return Math.floor(Math.random() * (die - 1)) + 1;
+  }
+
+  private keepFighting(combatResults) {
+    const totals = {};
+    combatResults.forEach((char) => {
+      if (totals[char.team]) {
+        totals[char.team] += char.hp;
+      } else {
+        totals[char.team] = char.hp;
+      }
+    });
+    return (
+      combatResults.length > 0 &&
+      Object.values(totals).every((total) => total > 0)
+    );
   }
 }
