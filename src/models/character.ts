@@ -4,8 +4,8 @@ export interface Character {
   id: number;
   name: string;
   hp: number;
-  ac: string;
-  tohit: string;
+  armor: string;
+  toHit: string;
   damage: Dice;
   bonus_damage: Dice;
   team: string;
