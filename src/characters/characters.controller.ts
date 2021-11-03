@@ -1,5 +1,14 @@
-import { Controller, Post, Body, Delete, Param, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Put,
+  Body,
+  Delete,
+  Param,
+  Get,
+} from '@nestjs/common';
 import { CreateCharacterDto } from '../dtos/create_character';
+import { UpdateCharacterDto } from '../dtos/update_character';
 import { CharacterService } from './characters.service';
 
 @Controller('characters')
@@ -7,7 +16,7 @@ export class CharactersController {
   constructor(private characterService: CharacterService) {}
 
   @Get()
-  async index(){
+  async index() {
     return this.characterService.index();
   }
 
@@ -17,10 +26,15 @@ export class CharactersController {
     return this.characterService.create(createCharacterDto);
   }
 
+  @Put(':id')
+  // eslint-disable-next-line prettier/prettier
+  async update(@Param('id') id: string, @Body() updateCharacterDto: UpdateCharacterDto) {
+    return this.characterService.update(id, updateCharacterDto);
+  }
+
   @Delete(':id')
   // eslint-disable-next-line prettier/prettier
   async remove(@Param('id') id: string) {
-    console.log(id)
     return this.characterService.delete(id);
   }
 }
