@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { CombatService } from './combat.service';
 
 @Controller('combat')
@@ -12,4 +12,8 @@ export class CombatController {
   //   <td>{result.hp}</td>
   //   <td>{result.damage_dealt}</td>
   //   <td>{result.damage_taken}</td>
+  @Get()
+  async index(){
+    return this.combatService.combat();
+  }
 }
