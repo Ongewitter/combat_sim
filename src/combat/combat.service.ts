@@ -86,7 +86,7 @@ export class CombatService {
   }
 
   private dealDamage(attacker: CombatResult, target: CombatResult) {
-    const damage = this.rollDamage(attacker.damage, attacker.bonusDamage);
+    const damage = this.rollDamage(attacker.damage) + this.rollDamage(attacker.bonusDamage);
     attacker.damageDealt += damage;
     target.hp -= damage;
     if (target.hp <= 0) {
@@ -94,15 +94,11 @@ export class CombatService {
     }
   }
 
-  private rollDamage(damage: Dice, bonusDamage: Dice) {
-    console.log(damage, bonusDamage)
-    // TODO: depends on ruleset
+  private rollDamage(damage: Dice) {
+    // TODO: should depend on ruleset
     let total = 0;
-    for (let i = 0; i < damage.amount; i++){
+    for (let i = 0; i < damage.amount; i++) {
       total += this.getRoll(damage.die);
-    }
-    for (let i = 0; i < bonusDamage.amount; i++){
-      total += this.getRoll(bonusDamage.die);
     }
     return total;
   }
